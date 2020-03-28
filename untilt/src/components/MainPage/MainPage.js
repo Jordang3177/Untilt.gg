@@ -13,7 +13,7 @@ const MainPage = () => {
     e.preventDefault();
     fetch(`/summoner/${summonerName}`)
       .then(res => res.json())
-      .then(json => setReturnedValue(json.accountId));
+      .then(json => setReturnedValue(json.summonerLevel));
   };
 
   return (
@@ -28,7 +28,7 @@ const MainPage = () => {
 
         <input type="submit" />
       </form>
-      <p>The summoner name is {returnedValue}</p>
+      <p>The summoner level is {returnedValue}</p>
     </div>
   );
 };
