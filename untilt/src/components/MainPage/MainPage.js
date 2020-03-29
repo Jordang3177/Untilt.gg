@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 function MainPage() {
   const [summonerName, setSummonerName] = useState("");
@@ -10,10 +10,6 @@ function MainPage() {
   const handleChange = e => {
     e.persist();
     setSummonerName(e.target.value);
-  };
-
-  const evaluate_time = epoch_time => {
-    setTime(new Date(epoch_time * 1000));
   };
 
   const handleSubmit = e => {
