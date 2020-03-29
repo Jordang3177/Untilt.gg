@@ -17,8 +17,7 @@ function MainPage() {
     fetch(`/summoner/${summonerName}`)
       .then(res => res.json())
       .then(json => {
-        setReturnedValue(json.matches[0].timestamp);
-        setTime(new Date(json.matches[0].timestamp));
+        console.log(json);
       });
   };
 
