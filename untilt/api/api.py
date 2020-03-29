@@ -11,18 +11,49 @@ match_history_url = 'https://na1.api.riotgames.com/lol/match/v4/matchlists/by-ac
 match_url = 'https://na1.api.riotgames.com/lol/match/v4/matches/'
 @app.route('/summoner/<summonerName>')
 def main(summonerName):
+    print('start')
     summoner_data = get_summoner_data(summonerName)
-    match_history = get_match_history(summoner_data.json()['accountId'])
+    print('got summoner data')
+    accountId = summoner_data['accountId']
+    match_history = get_match_history(summoner_data['accountId'])
+    print('got match history')
     wins_by_time = {}
+    wins = []
     for i in range(23):
         wins_by_time[i] = 0
-    return match_history
+    print('finished making dictionary')
+
+    for i in range(5):
+        print('on iteration ' + str(i))
+        gameId = match_history['matches'][i]['gameId']
+        wins.append(get_winner_of_match(accountId, gameId))
+    print('finished')
+    winners = {'wins': wins}
+    print(winners)
+    return winners
 
 def get_summoner_data(summoner):
     response = requests.get(summoner_name_url + summoner + '?api_key=' + API_KEY)
-    return response
+    return response.json()
 
 def get_match_history(accountId):
     response = requests.get(match_history_url + accountId + '?api_key=' + API_KEY)
-    epoch_time = response.json()
-    return epoch_time
+    matches = response.json()
+    return matches
+
+def get_winner_of_match(accountId, matchId):
+    response = requests.get(match_url + str(matchId) + '?api_key=' + API_KEY)
+    response = response.json()
+    if response['teams'][0]['win'] == 'Win':
+        team_100_wins = True
+    else:
+        team_100_wins = False
+    for participants in response['participantIdentities']:
+        if participants['player']['accountId'] == accountId:
+            if participants['participantId'] <= 5 and team_100_wins:
+                return True
+            elif participants['participantId'] > 5 and not team_100_wins:
+                return True
+            else:
+                return False
+    return 'not found'
