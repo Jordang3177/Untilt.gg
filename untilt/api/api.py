@@ -57,3 +57,13 @@ def get_winner_of_match(accountId, matchId):
             else:
                 return False
     return 'not found'
+
+## Add results to database.
+## ID key should be Summoner ID/Account ID.
+## Then put MatchID as another entry
+## Then Champion played in that match
+## When that match was
+## Season number
+## Won or lost
+## 
+    
