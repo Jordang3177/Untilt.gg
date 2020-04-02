@@ -1,44 +1,109 @@
 import React, { useState } from "react";
+import classes from "./MainPage.module.css";
+import SummonerInput from "../InputForm/InputForm";
+import ChampionInput from "../InputForm/InputForm";
+import SeasonInput from "../InputForm/InputForm";
+import QueueInput from "../InputForm/InputForm";
+import PreaseasonInput from "../InputForm/InputForm";
+import SubmitButton from "../Button/Button";
 
 function MainPage() {
   const [summonerName, setSummonerName] = useState("");
-  const [returnedValue, setReturnedValue] = useState("");
-  const [time, setTime] = useState(
-    new Date("July 1, 1978 02:30:00")
-  );
+  const [championName, setChampionName] = useState("");
+  const [seasonNumber, setSeasonNumber] = useState(0);
+  const [queueType, setQueueType] = useState("");
+  const [
+    preaseasonIncluded,
+    setPreseasonIncluded
+  ] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = e => {
+  const handleSummonerChange = e => {
     e.persist();
     setSummonerName(e.target.value);
   };
 
+  const handleChampionChange = e => {
+    e.persist();
+    setChampionName(e.target.value);
+  };
+
+  const handleSeasonChange = e => {
+    e.persist();
+    setSeasonNumber(e.target.value);
+  };
+
+  const handleQueueChange = e => {
+    e.persist();
+    setQueueType(e.target.value);
+  };
+
+  const handlePreseasonChange = e => {
+    e.persist();
+    setPreseasonIncluded(true);
+  };
+
   const handleSubmit = e => {
-    e.preventDefault();
-    fetch(`/summoner/${summonerName}`)
+    if (summonerName === "") {
+      alert("Summoner Name is required!");
+      return;
+    }
+    setSubmitted(true);
+    console.log(
+      `/summoner/${summonerName}/${championName}/${seasonNumber}/${queueType}/${preaseasonIncluded}`
+    );
+    fetch(
+      `/summoner/${summonerName}/${championName}/${seasonNumber}/${queueType}/${preaseasonIncluded}`
+    )
       .then(res => res.json())
       .then(json => {
         console.log(json);
       });
   };
 
+  if (submitted) {
+    console.log(submitted);
+  }
+
   return (
-    <div className="SummonerForm">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="summonerName">Summoner Name:</label>
-        <input
+    <div>
+      <h1 className={classes.Title}>Untilt.gg</h1>
+      <div className={classes.InputFields}>
+        <SummonerInput
+          label="Summoner Name: "
           type="text"
           value={summonerName}
-          onChange={handleChange}
-        />
-
-        <input type="submit" />
-      </form>
-      <p>The summoner level is {returnedValue}</p>
-      <p>
-        The time is {time.toGMTString()}
-        <br></br>
-        {time.toLocaleString()}
-      </p>
+          handleChange={handleSummonerChange}
+        ></SummonerInput>
+        <ChampionInput
+          label="Champion Name: "
+          type="text"
+          value={championName}
+          handleChange={handleChampionChange}
+        ></ChampionInput>
+        <SeasonInput
+          label="Season: "
+          type="number"
+          value={seasonNumber}
+          handleChange={handleSeasonChange}
+        ></SeasonInput>
+        <QueueInput
+          label="Queue: "
+          type="text"
+          value={queueType}
+          handleChange={handleQueueChange}
+        ></QueueInput>
+        <PreaseasonInput
+          label="Preaseason: "
+          type="text"
+          value={preaseasonIncluded}
+          handleChange={handlePreseasonChange}
+        ></PreaseasonInput>
+        <SubmitButton
+          handleSubmit={handleSubmit}
+          value="Submit"
+        ></SubmitButton>
+      </div>
     </div>
   );
 }
