@@ -1,5 +1,4 @@
 import React from "react";
-import classes from "./InputForm.module.css";
 
 function SummonerInputForm(props) {
   /*   const [returnedValue, setReturnedValue] = useState("");
