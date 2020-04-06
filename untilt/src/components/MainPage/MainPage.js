@@ -70,39 +70,39 @@ function MainPage() {
       <h1 className={classes.Title}>Untilt.gg</h1>
       <div className={classes.InputFields}>
         <SummonerInput
-          label="Summoner Name: "
-          type="text"
-          value={summonerName}
-          handleChange={handleSummonerChange}
-        ></SummonerInput>
+    label="Summoner Name: "
+    type="text"
+    value={summonerName}
+    handleChange={handleSummonerChange}
+    />
         <ChampionInput
-          label="Champion Name: "
-          type="text"
-          value={championName}
-          handleChange={handleChampionChange}
-        ></ChampionInput>
+    label="Champion Name: "
+    type="text"
+    value={championName}
+    handleChange={handleChampionChange}
+    />
         <SeasonInput
-          label="Season: "
-          type="number"
-          value={seasonNumber}
-          handleChange={handleSeasonChange}
-        ></SeasonInput>
+    label="Season: "
+    type="number"
+    value={seasonNumber}
+    handleChange={handleSeasonChange}
+    />
         <QueueInput
-          label="Queue: "
-          type="text"
-          value={queueType}
-          handleChange={handleQueueChange}
-        ></QueueInput>
+    label="Queue: "
+    type="text"
+    value={queueType}
+    handleChange={handleQueueChange}
+    />
         <PreaseasonInput
-          label="Preaseason: "
-          type="text"
-          value={preaseasonIncluded}
-          handleChange={handlePreseasonChange}
-        ></PreaseasonInput>
+    label="Preaseason: "
+    type="text"
+    value={preaseasonIncluded}
+    handleChange={handlePreseasonChange}
+    />
         <SubmitButton
-          handleSubmit={handleSubmit}
-          value="Submit"
-        ></SubmitButton>
+    handleSubmit={handleSubmit}
+    value="Submit"
+    />
       </div>
     </div>
   );
