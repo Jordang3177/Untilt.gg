@@ -1,6 +1,5 @@
 from flask import Flask
-# from api_key import ApiKey
-from api.api_key import ApiKey
+from api_key import ApiKey
 import requests
 import time
 
@@ -10,12 +9,25 @@ API_KEY = api.getKey()
 summoner_name_url = 'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/'
 match_history_url = 'https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/'
 match_url = 'https://na1.api.riotgames.com/lol/match/v4/matches/'
-@app.route('/summoner/<summonerName>')
-def main(summonerName):
+@app.route('/summoner/<summonerName>/<champion>/<season>/<queue>/<preseason>')
+def main(summonerName, champion, season, queue, preseason):
+    champion = champion
+    season = season
+    queue = queue
+    preseason = preseason
+    print(champion)
+    print(season)
+    print(queue)
+    print(preseason)
     print('start')
     summoner_data = get_summoner_data(summonerName)
+    print(summoner_data)
     print('got summoner data')
-    accountId = summoner_data['accountId']
+    try:
+        accountId = summoner_data['accountId']
+    except:
+        print('error')
+        return
     match_history = get_match_history(summoner_data['accountId'])
     print('got match history')
     wins_by_time = {}
@@ -23,10 +35,14 @@ def main(summonerName):
     for i in range(23):
         wins_by_time[i] = 0
     print('finished making dictionary')
+    print('\n')
+    print(match_history)
 
     for i in range(5):
         print('on iteration ' + str(i))
         gameId = match_history['matches'][i]['gameId']
+        toDatabase = match_history['matches'][i]
+        
         wins.append(get_winner_of_match(accountId, gameId))
     print('finished')
     winners = {'wins': wins}
