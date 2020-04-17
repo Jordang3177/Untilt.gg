@@ -42,7 +42,6 @@ def main(summonerName, champion, season, queue, preseason):
         print('on iteration ' + str(i))
         gameId = match_history['matches'][i]['gameId']
         toDatabase = match_history['matches'][i]
-        
         wins.append(get_winner_of_match(accountId, gameId))
     print('finished')
     winners = {'wins': wins}
