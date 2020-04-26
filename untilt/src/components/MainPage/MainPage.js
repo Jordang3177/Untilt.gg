@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import classes from "./MainPage.module.css";
+import data from "../../assets/champions.json";
 import SummonerInput from "../InputForm/InputForm";
-import ChampionInput from "../InputForm/InputForm";
 import SeasonInput from "../InputForm/InputForm";
 import QueueInput from "../InputForm/InputForm";
 import PreaseasonInput from "../InputForm/InputForm";
 import SubmitButton from "../Button/Button";
+import Dropdown from "../Dropdown/Dropdown";
 
 function MainPage() {
   const [summonerName, setSummonerName] = useState("");
@@ -17,7 +18,7 @@ function MainPage() {
     setPreseasonIncluded
   ] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
+  const [champions] = useState(data.champions)
   const handleSummonerChange = e => {
     e.persist();
     setSummonerName(e.target.value);
@@ -25,7 +26,8 @@ function MainPage() {
 
   const handleChampionChange = e => {
     e.persist();
-    setChampionName(e.target.value);
+    setChampionName(champions[e.target.value].champion);
+    console.log(champions[e.target.value].champion);
   };
 
   const handleSeasonChange = e => {
@@ -75,12 +77,9 @@ function MainPage() {
     value={summonerName}
     handleChange={handleSummonerChange}
     />
-        <ChampionInput
-    label="Champion Name: "
-    type="text"
-    value={championName}
-    handleChange={handleChampionChange}
-    />
+    <Dropdown
+    values={champions}
+    handleChange={handleChampionChange}/>
         <SeasonInput
     label="Season: "
     type="number"
