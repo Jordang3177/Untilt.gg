@@ -1,6 +1,12 @@
 {
   "champions": [
     {
+      "id": -1,
+      "champion": "",
+      "selected": false,
+      "key": "Default"
+    },
+    {
       "id": 0,
       "champion": "Aatrox",
       "selected": false,
