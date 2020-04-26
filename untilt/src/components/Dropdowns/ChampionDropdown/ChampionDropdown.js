@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Dropdown(props) {
+function ChampionDropdown(props) {
     return(
         <div>
             Champion:
@@ -14,4 +14,4 @@ function Dropdown(props) {
 
 }
 
-export default Dropdown;
+export default ChampionDropdown;
