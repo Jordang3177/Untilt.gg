@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import classes from "./MainPage.module.css";
 import data from "../../assets/champions.json";
 import SummonerInput from "../InputForm/InputForm";
-import SeasonInput from "../InputForm/InputForm";
 import QueueInput from "../InputForm/InputForm";
 import PreaseasonInput from "../InputForm/InputForm";
 import SubmitButton from "../Button/Button";
@@ -82,12 +81,6 @@ function MainPage() {
     <ChampionDropdown
     values={champions}
     handleChange={handleChampionChange}/>
-        <SeasonInput
-    label="Season: "
-    type="number"
-    value={seasonNumber}
-    handleChange={handleSeasonChange}
-    />
     <SeasonDropdown
         values={seasons}
       handleChange = {handleSeasonChange}/>
