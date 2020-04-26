@@ -6,12 +6,13 @@ import SeasonInput from "../InputForm/InputForm";
 import QueueInput from "../InputForm/InputForm";
 import PreaseasonInput from "../InputForm/InputForm";
 import SubmitButton from "../Button/Button";
-import Dropdown from "../Dropdown/Dropdown";
+import ChampionDropdown from "../Dropdowns/ChampionDropdown/ChampionDropdown";
+import SeasonDropdown from "../Dropdowns/SeasonDropdown/SeasonDropdown";
 
 function MainPage() {
   const [summonerName, setSummonerName] = useState("");
   const [championName, setChampionName] = useState("");
-  const [seasonNumber, setSeasonNumber] = useState(0);
+  const [seasonNumber, setSeasonNumber] = useState(10);
   const [queueType, setQueueType] = useState("");
   const [
     preaseasonIncluded,
@@ -19,6 +20,7 @@ function MainPage() {
   ] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [champions] = useState(data.champions)
+  const [seasons] = useState([8,9,10])
   const handleSummonerChange = e => {
     e.persist();
     setSummonerName(e.target.value);
@@ -77,7 +79,7 @@ function MainPage() {
     value={summonerName}
     handleChange={handleSummonerChange}
     />
-    <Dropdown
+    <ChampionDropdown
     values={champions}
     handleChange={handleChampionChange}/>
         <SeasonInput
@@ -86,6 +88,9 @@ function MainPage() {
     value={seasonNumber}
     handleChange={handleSeasonChange}
     />
+    <SeasonDropdown
+        values={seasons}
+      handleChange = {handleSeasonChange}/>
         <QueueInput
     label="Queue: "
     type="text"
