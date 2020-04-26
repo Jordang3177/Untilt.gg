@@ -3,7 +3,7 @@ import React from 'react';
 function SeasonDropdown(props) {
     return(
         <div>
-            Champion:
+            Season:
             <select onChange={props.handleChange}>
                 {props.values.map(d => <option key={d}>
                     {d}</option>)}
