@@ -9,6 +9,7 @@ public class MatchEntity {
     public String id;
     public String matchId;
     public long gameCreationTimeStamp;
+    public TimeZoneEntity timeZoneEntity;
     public List<SummonerInfoEntity> summonersInfo;
     public List<PlayerEntity> winners;
 

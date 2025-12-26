@@ -15,6 +15,7 @@ void main() throws IOException, InterruptedException {
     LeagueHttpApiClient leagueHttpApiClient = new LeagueHttpApiClient();
     String[] summoner = summonerId.split("#");
     String summonerName = summoner[0];
+    summonerName = summonerName.replaceAll("\\s+","");
     String summonerTagLine = summoner[1];
     String accountInformation = leagueHttpApiClient.getAccountInformation(summonerName, summonerTagLine);
     Thread.sleep(1300);
