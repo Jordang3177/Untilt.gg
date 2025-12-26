@@ -1,7 +1,9 @@
+import Entities.MatchEntity;
+import HttpClients.LeagueHttpApiClient;
+import Utils.GrabUserInput;
+import Utils.JsonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 void main() throws IOException, InterruptedException {
     GrabUserInput grabUserInput = new GrabUserInput();
     String summonerId = grabUserInput.grabInput();
@@ -15,10 +17,16 @@ void main() throws IOException, InterruptedException {
     String summonerName = summoner[0];
     String summonerTagLine = summoner[1];
     String accountInformation = leagueHttpApiClient.getAccountInformation(summonerName, summonerTagLine);
+    Thread.sleep(1300);
     System.out.println(accountInformation);
     JsonNode accountInformationJson = JsonUtil.parse(accountInformation);
     String UserId = accountInformationJson.get("puuid").asText();
     System.out.println(UserId);
     List<String> matchIds = leagueHttpApiClient.getAllMatchIds(UserId);
+    Thread.sleep(1300);
     System.out.println(matchIds.size());
+    System.out.println(matchIds);
+    List<MatchEntity> allMatchInfo = leagueHttpApiClient.getAllMatches(matchIds);
+    System.out.println(allMatchInfo.size());
+    Thread.sleep(1300);
 }

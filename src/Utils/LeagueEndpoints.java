@@ -1,3 +1,5 @@
+package Utils;
+
 public final class LeagueEndpoints {
 
     public static String championRotation() {
@@ -10,5 +12,9 @@ public final class LeagueEndpoints {
 
     public static String matchesByUserId() {
         return "/lol/match/v5/matches/by-puuid/";
+    }
+
+    public static String matchByMatchId() {
+        return "/lol/match/v5/matches/";
     }
 }
