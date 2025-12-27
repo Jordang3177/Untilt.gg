@@ -1,11 +1,12 @@
 package HttpClients;
 
-import Entities.Info.*;
-import Entities.MatchEntity;
+import Entities.*;
+import Enums.Region;
 import Utils.BuildEntitiesUtils;
 import Utils.Config;
+import Utils.Containers.PlayerDataContainer;
 import Utils.LeagueEndpoints;
-import Utils.MatchContainer;
+import Utils.Containers.MatchContainer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -21,27 +22,29 @@ import java.util.*;
 public class LeagueHttpApiClient {
     private final HttpClient httpClient;
     private final String apiKey;
-    private final String baseUrl;
-    private final String oldBaseUrl;
+    private final String regionBaseUrl;
+    private final String clusterBaseUrl;
     private final ObjectMapper MAPPER;
     private final MatchContainer matchContainer;
+    private final PlayerDataContainer playerDataContainer;
     private final BuildEntitiesUtils buildEntitiesUtils;
 
-    public LeagueHttpApiClient() {
+    public LeagueHttpApiClient(String regionBaseUrl, String clusterBaseUrl) {
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofMillis(Config.API_TIMEOUT))
                 .build();
         this.apiKey = Config.API_KEY;
-        this.baseUrl = Config.API_REGION_BASEURL;
-        this.oldBaseUrl = Config.API_CLUSTER_BASEURL;
+        this.regionBaseUrl = regionBaseUrl;
+        this.clusterBaseUrl = clusterBaseUrl;
         this.MAPPER = new ObjectMapper();
         this.matchContainer = new MatchContainer();
+        this.playerDataContainer = new PlayerDataContainer();
         this.buildEntitiesUtils = new BuildEntitiesUtils();
     }
 
     private HttpRequest.Builder regionBaseRequest(String path) {
         return HttpRequest.newBuilder()
-                .uri(URI.create(baseUrl + path))
+                .uri(URI.create(regionBaseUrl + path))
                 .timeout(Duration.ofMillis(Config.API_TIMEOUT))
                 .header("X-Riot-Token", apiKey)
                 .header("Content-Type", "application/json");
@@ -49,7 +52,7 @@ public class LeagueHttpApiClient {
 
     private HttpRequest.Builder clusterBaseRequest(String path) {
         return HttpRequest.newBuilder()
-                .uri(URI.create(oldBaseUrl + path))
+                .uri(URI.create(clusterBaseUrl + path))
                 .timeout(Duration.ofMillis(Config.API_TIMEOUT))
                 .header("X-Riot-Token", apiKey)
                 .header("Content-Type", "application/json");
@@ -122,7 +125,7 @@ public class LeagueHttpApiClient {
         return currentMatchEntity;
     }
 
-    public List<MatchEntity> getAllMatches(List<String> matches) throws IOException, InterruptedException {
+    public List<MatchEntity> getAllMatches(Set<String> matches) throws IOException, InterruptedException {
         List<MatchEntity> allMatches = new ArrayList<>();
         int counter = 0;
         for(String matchId : matches) {
@@ -132,6 +135,65 @@ public class LeagueHttpApiClient {
             counter++;
         }
         return allMatches;
+    }
+
+    public PlayerDataEntity getPlayerEntityByPuuid(String puuid, String gameName, String tagLine, Region region, List<String> matches) throws InterruptedException, IOException {
+        PlayerDataEntity existingPlayerDataEntity = playerDataContainer.getByPlayerId(gameName + "_" + tagLine + "_" + region.toString());
+        if(existingPlayerDataEntity != null) {
+            boolean modified = false;
+            for(String match : matches) {
+                if(!existingPlayerDataEntity.matchesSet.contains(match)) {
+                    existingPlayerDataEntity.matchesSet.add(match);
+                    modified = true;
+                }
+            }
+            if(modified) {
+                playerDataContainer.replace(existingPlayerDataEntity);
+                System.out.println("PlayerData has been modified so Updating the PlayerData in the DB for Player with Id: " + existingPlayerDataEntity.id);
+            }
+            else {
+                System.out.println("PlayerData was not modified, no updates needed");
+            }
+            System.out.println("PlayerData already exists for given Player Id");
+            return existingPlayerDataEntity;
+        }
+
+        HttpRequest request = regionBaseRequest(LeagueEndpoints.rankByUserId() + puuid).GET().build();
+
+        System.out.println(request.uri());
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        validateResponse(response);
+        JsonNode playerDataEntity = MAPPER.readValue(response.body(), new com.fasterxml.jackson.core.type.TypeReference<JsonNode>() {});
+        String tier = null;
+        String rank = null;
+        if(playerDataEntity.isArray()) {
+            for(JsonNode entry : playerDataEntity) {
+                String queueType = entry.path("queueType").asText();
+                if("RANKED_SOLO_5x5".equals(queueType)) {
+                    tier = entry.path("tier").asText();
+                    rank = entry.path("rank").asText();
+                }
+            }
+        }
+        PlayerDataEntity currentPlayerDataEntity = new PlayerDataEntity();
+        if(tier.equals("CHALLENGER") || tier.equals("GRANDMASTER") || tier.equals("MASTER")) {
+            currentPlayerDataEntity.rank = tier;
+        }
+        else {
+            currentPlayerDataEntity.rank = tier + " " + rank;
+        }
+        currentPlayerDataEntity.id = gameName + "_" + tagLine + "_" + region;
+        currentPlayerDataEntity.puuid = puuid;
+        currentPlayerDataEntity.gameName = gameName;
+        currentPlayerDataEntity.tagLine = tagLine;
+        currentPlayerDataEntity.region = region.toString();
+        currentPlayerDataEntity.matchesSet = new HashSet<>(matches);
+        System.out.println("Attempting to save Current PlayerDataEntity to DB with PlayerId: " + currentPlayerDataEntity.id);
+        playerDataContainer.save(currentPlayerDataEntity);
+        Thread.sleep(1300);
+        return currentPlayerDataEntity;
     }
 
     private void validateResponse(HttpResponse<?> response) {

@@ -17,4 +17,12 @@ public final class LeagueEndpoints {
     public static String matchByMatchId() {
         return "/lol/match/v5/matches/";
     }
+
+    public static String rankByUserId() {
+        return "/lol/league/v4/entries/by-puuid/";
+    }
+
+    public static String accountByUserId() {
+        return "/riot/account/v1/accounts/by-puuid/";
+    }
 }
