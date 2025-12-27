@@ -7,147 +7,147 @@ public class TimeZoneEntity {
 
     // UTC-12:00
     @JsonProperty("Etc/GMT+12")
-    public ZonedDateTime etcGmtPlus12;
+    public String etcGmtPlus12;
 
     // UTC-11:00
     @JsonProperty("Pacific/Pago_Pago")
-    public ZonedDateTime pacificPagoPago;
+    public String pacificPagoPago;
 
     // UTC-10:00
     @JsonProperty("Pacific/Honolulu")
-    public ZonedDateTime pacificHonolulu;
+    public String pacificHonolulu;
 
     // UTC-09:00
     @JsonProperty("America/Anchorage")
-    public ZonedDateTime americaAnchorage;
+    public String americaAnchorage;
 
     // UTC-08:00
     @JsonProperty("America/Los_Angeles")
-    public ZonedDateTime americaLosAngeles;
+    public String americaLosAngeles;
 
     // UTC-07:00
     @JsonProperty("America/Denver")
-    public ZonedDateTime americaDenver;
+    public String americaDenver;
 
     // UTC-06:00
     @JsonProperty("America/Chicago")
-    public ZonedDateTime americaChicago;
+    public String americaChicago;
 
     // UTC-05:00
     @JsonProperty("America/New_York")
-    public ZonedDateTime americaNewYork;
+    public String americaNewYork;
 
     // UTC-04:00
     @JsonProperty("America/Halifax")
-    public ZonedDateTime americaHalifax;
+    public String americaHalifax;
 
     // UTC-03:30
     @JsonProperty("America/St_Johns")
-    public ZonedDateTime americaStJohns;
+    public String americaStJohns;
 
     // UTC-03:00
     @JsonProperty("America/Argentina/Buenos_Aires")
-    public ZonedDateTime americaBuenosAires;
+    public String americaBuenosAires;
 
     // UTC-02:00
     @JsonProperty("Atlantic/South_Georgia")
-    public ZonedDateTime atlanticSouthGeorgia;
+    public String atlanticSouthGeorgia;
 
     // UTC-01:00
     @JsonProperty("Atlantic/Azores")
-    public ZonedDateTime atlanticAzores;
+    public String atlanticAzores;
 
     // UTC±00:00
     @JsonProperty("Europe/London")
-    public ZonedDateTime europeLondon;
+    public String europeLondon;
 
     // UTC+01:00
     @JsonProperty("Europe/Paris")
-    public ZonedDateTime europeParis;
+    public String europeParis;
 
     // UTC+02:00
     @JsonProperty("Africa/Cairo")
-    public ZonedDateTime africaCairo;
+    public String africaCairo;
 
     // UTC+03:00
     @JsonProperty("Europe/Moscow")
-    public ZonedDateTime europeMoscow;
+    public String europeMoscow;
 
     // UTC+03:30
     @JsonProperty("Asia/Tehran")
-    public ZonedDateTime asiaTehran;
+    public String asiaTehran;
 
     // UTC+04:00
     @JsonProperty("Asia/Dubai")
-    public ZonedDateTime asiaDubai;
+    public String asiaDubai;
 
     // UTC+04:30
     @JsonProperty("Asia/Kabul")
-    public ZonedDateTime asiaKabul;
+    public String asiaKabul;
 
     // UTC+05:00
     @JsonProperty("Asia/Karachi")
-    public ZonedDateTime asiaKarachi;
+    public String asiaKarachi;
 
     // UTC+05:30
     @JsonProperty("Asia/Kolkata")
-    public ZonedDateTime asiaKolkata;
+    public String asiaKolkata;
 
     // UTC+05:45
     @JsonProperty("Asia/Kathmandu")
-    public ZonedDateTime asiaKathmandu;
+    public String asiaKathmandu;
 
     // UTC+06:00
     @JsonProperty("Asia/Dhaka")
-    public ZonedDateTime asiaDhaka;
+    public String asiaDhaka;
 
     // UTC+06:30
     @JsonProperty("Asia/Yangon")
-    public ZonedDateTime asiaYangon;
+    public String asiaYangon;
 
     // UTC+07:00
     @JsonProperty("Asia/Bangkok")
-    public ZonedDateTime asiaBangkok;
+    public String asiaBangkok;
 
     // UTC+08:00
     @JsonProperty("Asia/Shanghai")
-    public ZonedDateTime asiaShanghai;
+    public String asiaShanghai;
 
     // UTC+09:00
     @JsonProperty("Asia/Tokyo")
-    public ZonedDateTime asiaTokyo;
+    public String asiaTokyo;
 
     // UTC+09:30
     @JsonProperty("Australia/Adelaide")
-    public ZonedDateTime australiaAdelaide;
+    public String australiaAdelaide;
 
     // UTC+10:00
     @JsonProperty("Australia/Sydney")
-    public ZonedDateTime australiaSydney;
+    public String australiaSydney;
 
     // UTC+10:30
     @JsonProperty("Australia/Lord_Howe")
-    public ZonedDateTime australiaLordHowe;
+    public String australiaLordHowe;
 
     // UTC+11:00
     @JsonProperty("Pacific/Noumea")
-    public ZonedDateTime pacificNoumea;
+    public String pacificNoumea;
 
     // UTC+12:00
     @JsonProperty("Pacific/Auckland")
-    public ZonedDateTime pacificAuckland;
+    public String pacificAuckland;
 
     // UTC+12:45
     @JsonProperty("Pacific/Chatham")
-    public ZonedDateTime pacificChatham;
+    public String pacificChatham;
 
     // UTC+13:00
     @JsonProperty("Pacific/Tongatapu")
-    public ZonedDateTime pacificTongatapu;
+    public String pacificTongatapu;
 
     // UTC+14:00
     @JsonProperty("Pacific/Kiritimati")
-    public ZonedDateTime pacificKiritimati;
+    public String pacificKiritimati;
 
     public TimeZoneEntity() {}
 }

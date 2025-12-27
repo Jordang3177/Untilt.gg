@@ -1,5 +1,7 @@
+import Entities.HourlyWinRateEntity;
 import Entities.MatchEntity;
 import HttpClients.LeagueHttpApiClient;
+import Utils.BestHourUtil;
 import Utils.GrabUserInput;
 import Utils.JsonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -30,4 +32,8 @@ void main() throws IOException, InterruptedException {
     List<MatchEntity> allMatchInfo = leagueHttpApiClient.getAllMatches(matchIds);
     System.out.println(allMatchInfo.size());
     Thread.sleep(1300);
+    BestHourUtil bestHourUtil = new BestHourUtil();
+    ZoneId testZone = ZoneId.of("America/New_York");
+    HourlyWinRateEntity hourlyWinRateEntity = bestHourUtil.buildHourlyWinRates(UserId, allMatchInfo, testZone);
+    hourlyWinRateEntity.debugPrint(summonerId);
 }
